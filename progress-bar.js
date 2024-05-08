@@ -1,8 +1,8 @@
 const configuration = {
     // default configuration
     barColor: "green",
-    backgroundBarColor: "grey",
-    barWidth: "19px",
+    backgroundBarColor: "transparent",
+    barWidth: "10px",
     backgroundBarWidth: "17px",
     transitionDuration: 1500,
     transitionStyle: "ease",
@@ -173,10 +173,12 @@ class ProgressBar {
     }
 
     render() {
+        setTimeout(() => {
         const calculation =
-            565.48 - (565.48 / (this.max - this.min)) * this.value
+        565.48 - (565.48 / (this.max - this.min)) * this.value
         this.element.children[1].setAttribute("stroke-dashoffset", calculation)
 
         this.updateTextCount()
+        },1)
     }
 }
