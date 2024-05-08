@@ -1,20 +1,14 @@
-const bars = document.querySelectorAll(".progress-bar")
+const progressBar = new ProgressBar({
+    min: 0,
+    max: 10,
+    element: document.getElementById('progress-bar'),
 
-bars.forEach((el) => {
-    const bar = new ProgressBar({
-        min: 0,
-        max: 100,
-        element: el,
-
-        value: 77,
-        size: "205px",
-        backgroundBarColor: "grey",
-        barColor: "red",
-        textColor: "red",
-    })
-
-    setInterval(() => {
-        const random = Math.floor(Math.random() * bar.max)
-        bar.setValue(random)
-    }, 2000)
+    size: '300px',
+    value: 60,
+    slash: true
 })
+
+setInterval(() => {
+    const random = Math.floor(Math.random() * progressBar.max)
+    progressBar.setValue(random)
+}, 2000)

@@ -1,7 +1,7 @@
 const configuration = {
     // default configuration
     barColor: "green",
-    backgroundBarColor: "black",
+    backgroundBarColor: "grey",
     barWidth: "19px",
     backgroundBarWidth: "17px",
     transitionDuration: 1500,
@@ -38,6 +38,8 @@ class ProgressBar {
         textColor = configuration.textColor,
         barWidth = configuration.barWidth,
         backgroundBarWidth = configuration.backgroundBarWidth,
+        percentage = false,
+        slash = false,
     }) {
         this.min = min
         this.max = max
@@ -48,6 +50,8 @@ class ProgressBar {
         this.size = size
         this.backgroundBarWidth = backgroundBarWidth
         this.barWidth = barWidth
+        this.percentage = percentage
+        this.slash = slash
 
         setAttributes(element, {
             width: this.size,
@@ -91,7 +95,15 @@ class ProgressBar {
             "dominant-baseline": "middle",
             transform: "rotate(90, 100, 100)",
         })
-        this.element.children[2].textContent = 0
+
+        if (this.percentage) {
+            this.element.children[2].textContent = "0%"
+        } else if (this.slash) {
+            this.element.children[2].textContent = `0/${this.max}`
+        } else {
+            this.element.children[2].textContent = 0
+        }
+        
         this.element.dataset.progress = 0
 
         this.element.children[1].style.transition = `stroke-dashoffset ${transitionDuration}ms ${transitionStyle}`
@@ -115,7 +127,6 @@ class ProgressBar {
 
     updateTextCount() {
         const startProgress = Number(this.element.dataset.progress)
-        const difference = Math.abs(this.value - startProgress)
         const totalTime = configuration.transitionDuration
 
         let startTime = Date.now()
@@ -134,13 +145,27 @@ class ProgressBar {
                     : Math.floor(newProgress)
 
             this.element.dataset.progress = newProgress
-            this.element.children[2].textContent = newProgress
+
+            if (this.percentage) {
+                this.element.children[2].textContent = newProgress + "%"
+            } else if (this.slash) {
+                this.element.children[2].textContent = newProgress + `/${this.max}`
+            } else {
+                this.element.children[2].textContent = newProgress
+            }
 
             if (elapsed < totalTime && newProgress !== this.value) {
                 setTimeout(updateStep, 20)
             } else {
                 this.element.dataset.progress = this.value
-                this.element.children[2].textContent = this.value
+
+                if (this.percentage) {
+                    this.element.children[2].textContent = this.value + "%"
+                } else if (this.slash) {
+                    this.element.children[2].textContent = this.value + `/${this.max}`
+                } else {
+                    this.element.children[2].textContent = this.value
+                }
             }
         }
 
