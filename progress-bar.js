@@ -38,6 +38,7 @@ class ProgressBar {
         textColor = configuration.textColor,
         barWidth = configuration.barWidth,
         backgroundBarWidth = configuration.backgroundBarWidth,
+        instaReload = false,
         percentage = false,
         slash = false,
     }) {
@@ -50,6 +51,7 @@ class ProgressBar {
         this.size = size
         this.backgroundBarWidth = backgroundBarWidth
         this.barWidth = barWidth
+        this.instaReload = instaReload
         this.percentage = percentage
         this.slash = slash
 
@@ -107,6 +109,10 @@ class ProgressBar {
         this.element.dataset.progress = 0
 
         this.element.children[1].style.transition = `stroke-dashoffset ${transitionDuration}ms ${transitionStyle}`
+
+        if (this.instaReload) {
+            this.render()
+        }
     }
 
     setValue(newValue) {

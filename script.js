@@ -5,8 +5,6 @@ const progressBar = new ProgressBar({
 
     size: '300px',
     value: 60,
-    percentage: true
+    percentage: true,
+    instaReload: true,
 })
-
-    const random = Math.floor(Math.random() * progressBar.max)
-    progressBar.setValue(random)
